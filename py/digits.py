@@ -22,5 +22,15 @@ total = 0
 for i in range(len(x_test)):
     if y_test[i] == c.watf(x_test[i]).argmax():
         total += 1
-
 print("accuracy:", total/len(x_test))
+
+# tune
+for epoch in range(100):
+    for i in range(len(x_train)):
+        c.tune(y_train[i], x_train[i])
+
+    total = 0
+    for i in range(len(x_test)):
+        if y_test[i] == c.watf(x_test[i]).argmax():
+            total += 1
+    print("accuracy:", total/len(x_test))

@@ -29,5 +29,9 @@ class Сlassifier:
     def feed(self, L, F):
         self.W[L] += F
 
+    def tune(self, L, F):
+        if self.watf(F).argmax() != L:
+            self.W[L] += F
+
     def watf(self, F):
         return self.W @ F
