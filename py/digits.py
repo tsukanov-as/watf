@@ -20,17 +20,17 @@ for i in range(len(x_train)):
 # test
 total = 0
 for i in range(len(x_test)):
-    if y_test[i] == c.watf(x_test[i]).argmax():
+    if y_test[i] == c.pred(x_test[i]):
         total += 1
 print("accuracy:", total/len(x_test))
 
 # tune
-for epoch in range(100):
+for epoch in range(20):
     for i in range(len(x_train)):
         c.tune(y_train[i], x_train[i])
 
     total = 0
     for i in range(len(x_test)):
-        if y_test[i] == c.watf(x_test[i]).argmax():
+        if y_test[i] == c.pred(x_test[i]):
             total += 1
     print("accuracy:", total/len(x_test))
