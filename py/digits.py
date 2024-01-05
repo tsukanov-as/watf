@@ -14,23 +14,12 @@ import watf
 c = watf.Сlassifier(output_count, input_count)
 
 # train
-for i in range(len(x_train)):
-    c.feed(y_train[i], x_train[i])
-
-# test
-total = 0
-for i in range(len(x_test)):
-    if y_test[i] == c.pred(x_test[i]):
-        total += 1
-print("accuracy:", total/len(x_test))
-
-# tune
 for epoch in range(20):
-    for i in range(len(x_train)):
-        c.tune(y_train[i], x_train[i])
+    total_misses = c.tune_all(y_train, x_train)
 
-    total = 0
-    for i in range(len(x_test)):
-        if y_test[i] == c.pred(x_test[i]):
-            total += 1
-    print("accuracy:", total/len(x_test))
+    train_accuracy = c.test_all(y_train, x_train)
+    test_accuracy = c.test_all(y_test, x_test)
+    print("[epoch %d] accuracy train: %f; accuracy test: %f" % (epoch, train_accuracy, test_accuracy))
+
+    if total_misses == 0:
+        break

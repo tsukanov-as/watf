@@ -10,9 +10,25 @@ class Сlassifier:
     def tune(self, L, F):
         if self.pred(F) != L:
             self.feed(L, F)
+            return True
+        return False
+
+    def tune_all(self, L, F):
+        total = 0
+        for i in range(len(F)):
+            if self.tune(L[i], F[i]):
+                total += 1
+        return total
 
     def watf(self, F):
         return self.W @ F
-    
+
     def pred(self, F):
         return self.watf(F).argmax()
+
+    def test_all(self, L, F):
+        total = 0
+        for i in range(len(F)):
+            if self.pred(F[i]) == L[i]:
+                total += 1
+        return total/len(F)

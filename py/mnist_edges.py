@@ -48,28 +48,28 @@ import watf
 c = watf.Сlassifier(output_count, input_count)
 c.W = torch.from_numpy(c.W)
 
-def edges(x):
+def hidden(x):
     """ fixed hidden layer """
     return conv2d(x, kernels, padding=0).reshape(input_count).clip(0)
 
 # train
-for i in range(len(x_train)):
-    c.feed(y_train[i], edges(x_train[i]))
-
-# test
-total = 0
-for i in range(len(x_test)):
-    if y_test[i] == c.pred(edges(x_test[i])):
-        total += 1
-print("accuracy:", total/len(x_test))
-
-# tune
 for epoch in range(20):
+    total_misses = 0
     for i in range(len(x_train)):
-        c.tune(y_train[i], edges(x_train[i]))
+        if c.tune(y_train[i], hidden(x_train[i])):
+            total_misses += 1
 
-    total = 0
+    total_test = 0
     for i in range(len(x_test)):
-        if y_test[i] == c.pred(edges(x_test[i])):
-            total += 1
-    print("accuracy:", total/len(x_test))
+        if y_test[i] == c.pred(hidden(x_test[i])):
+            total_test += 1
+
+    total_train = 0
+    for i in range(len(x_train)):
+        if y_train[i] == c.pred(hidden(x_train[i])):
+            total_train += 1
+
+    print("[epoch %d] accuracy train: %f; accuracy test: %f" % (epoch, total_train/len(x_train), total_test/len(x_test)))
+
+    if total_misses == 0:
+        break

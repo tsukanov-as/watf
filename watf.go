@@ -25,9 +25,9 @@ func (w *Watf) Pred(fv []int) int {
 	// argmax(weights @ features)
 	maxv := 0
 	maxc := 0
+	base := 0
 	for cl := 0; cl < w.cc; cl++ {
 		total := 0
-		base := cl * w.fc
 		wv := w.wv[base : base+w.fc]
 		for i, v := range wv {
 			total += fv[i] * v
@@ -36,6 +36,7 @@ func (w *Watf) Pred(fv []int) int {
 			maxv = total
 			maxc = cl
 		}
+		base += w.fc
 	}
 	return maxc
 }

@@ -20,28 +20,12 @@ hidden_train = np.sign(np.einsum('ik,jk->ij', x_train, kernels)).clip(0)
 hidden_test = np.sign(np.einsum('ik,jk->ij', x_test, kernels)).clip(0)
 
 # train
-for i in range(len(x_train)):
-    c.feed(y_train[i], hidden_train[i])
+for epoch in range(50):
+    total_misses = c.tune_all(y_train, hidden_train)
 
-# test
-total = 0
-for i in range(len(x_test)):
-    if y_test[i] == c.pred(hidden_test[i]):
-        total += 1
-print("accuracy:", total/len(x_test))
+    train_accuracy = c.test_all(y_train, hidden_train)
+    test_accuracy = c.test_all(y_test, hidden_test)
+    print("[epoch %d] accuracy train: %f; accuracy test: %f" % (epoch, train_accuracy, test_accuracy))
 
-# tune
-for epoch in range(100):
-    for i in range(len(x_train)):
-        c.tune(y_train[i], hidden_train[i])
-
-    total_test = 0
-    for i in range(len(x_test)):
-        if y_test[i] == c.pred(hidden_test[i]):
-            total_test += 1
-
-    total = 0
-    for i in range(len(x_train)):
-        if y_train[i] == c.pred(hidden_train[i]):
-            total += 1
-    print("accuracy train/test:", total/len(x_train), total_test/len(x_test))
+    if total_misses == 0:
+        break
