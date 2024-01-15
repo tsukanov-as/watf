@@ -1,0 +1,37 @@
+import numpy as np
+
+class Сlassifier:
+    def __init__(self, L, F):
+        self.W = np.zeros((L, F))
+        self.T = np.ones(L)
+
+    def feed(self, L, F):
+        self.W[L] += F
+        self.T[L] += 1
+
+    def tune(self, L, F):
+        if self.pred(F) != L:
+            self.feed(L, F)
+            return True
+        return False
+
+    def tune_all(self, L, F):
+        total = 0
+        for i in range(len(F)):
+            if self.tune(L[i], F[i]):
+                total += 1
+        return total
+
+    def diff(self, F):
+        w = (self.W.T / self.T).T
+        return ((w - F)**2).sum(axis=1)
+
+    def pred(self, F):
+        return self.diff(F).argmin()
+
+    def test_all(self, L, F):
+        total = 0
+        for i in range(len(F)):
+            if self.pred(F[i]) == L[i]:
+                total += 1
+        return total/len(F)
