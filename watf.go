@@ -14,10 +14,12 @@ func New(classes, features int) *Watf {
 	}
 }
 
-func (w *Watf) Feed(cl int, fv []int) {
+func (w *Watf) Feed(cl int, p int, fv []int) {
 	base := cl * w.fc
+	baseP := p * w.fc
 	for i := 0; i < w.fc; i++ {
 		w.wv[base+i] += fv[i]
+		w.wv[baseP+i] -= fv[i] / 2
 	}
 }
 
@@ -42,8 +44,9 @@ func (w *Watf) Pred(fv []int) int {
 }
 
 func (watf *Watf) Tune(cl int, fv []int) bool {
-	if watf.Pred(fv) != cl {
-		watf.Feed(cl, fv)
+	p := watf.Pred(fv)
+	if p != cl {
+		watf.Feed(cl, p, fv)
 		return true
 	}
 	return false

@@ -19,22 +19,8 @@ func main() {
 
 	w := watf.New(10, 28*28)
 
-	// train
-	for _, r := range train {
-		w.Feed(r[0], r[1:])
-	}
-
-	// test
-	total := 0.0
-	for _, r := range test {
-		if w.Pred(r[1:]) == r[0] {
-			total += 1
-		}
-	}
-	fmt.Println(total / float64(len(test)))
-
 	// tune
-	for epoch := 0; epoch < 20; epoch++ {
+	for epoch := 0; epoch < 50; epoch++ {
 		for _, r := range train {
 			w.Tune(r[0], r[1:])
 		}
@@ -45,6 +31,6 @@ func main() {
 				total += 1
 			}
 		}
-		fmt.Println(total / float64(len(test)))
+		fmt.Printf("accuracy on test: %f\n", total/float64(len(test)))
 	}
 }
