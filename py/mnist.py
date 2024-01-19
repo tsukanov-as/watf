@@ -13,12 +13,12 @@ y_test = y_test.values.astype(int)
 input_count = 28*28
 output_count = 10
 
-import watf
+import watf3 as watf
 
 c = watf.Сlassifier(output_count, input_count)
 
 # train
-for epoch in range(20):
+for epoch in range(100):
     total_misses = c.tune_all(y_train, x_train)
 
     train_accuracy = c.test_all(y_train, x_train)
@@ -27,3 +27,20 @@ for epoch in range(20):
 
     if total_misses == 0:
         break
+
+# import matplotlib.pyplot as plt
+
+# plt.figure(figsize=(10, 10))
+# for i, patch in enumerate(c.W):
+#     vmax = patch.max()
+#     plt.subplot(1, 10, i + 1)
+#     plt.imshow(patch.reshape((28,28)), cmap=plt.get_cmap('RdBu'), interpolation="nearest")
+#     plt.xticks(())
+#     plt.yticks(())
+
+# plt.suptitle(
+#     "Weights",
+#     fontsize=16,
+# )
+
+# plt.show()

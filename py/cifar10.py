@@ -3,21 +3,18 @@ import tensorflow as tf
 
 import numpy as np
 
-x_train = np.reshape(x_train, (50000, 32*32*3))
-x_test = np.reshape(x_test, (10000, 32*32*3))
-
-y_train = y_train.ravel()
-y_test = y_test.ravel()
+x_train = np.reshape(x_train, (50000, 32*32*3)).astype(int)
+x_test = np.reshape(x_test, (10000, 32*32*3)).astype(int)
 
 input_count = 32*32*3
 output_count = 10
 
-import watf
+import watf3 as watf
 
 c = watf.Сlassifier(output_count, input_count)
 
 # train
-for epoch in range(20):
+for epoch in range(100):
     total_misses = c.tune_all(y_train, x_train)
 
     train_accuracy = c.test_all(y_train, x_train)

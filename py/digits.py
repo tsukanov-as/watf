@@ -9,12 +9,12 @@ x_train, x_test, y_train, y_test = train_test_split(digits.data, digits.target, 
 input_count = 8*8
 output_count = 10
 
-import watf
+import watf3 as watf
 
 c = watf.Сlassifier(output_count, input_count)
 
 # train
-for epoch in range(20):
+for epoch in range(50):
     total_misses = c.tune_all(y_train, x_train)
 
     train_accuracy = c.test_all(y_train, x_train)

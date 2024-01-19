@@ -9,9 +9,9 @@ hidden_count = 1000
 output_count = 10
 
 import numpy as np
-kernels = np.random.choice([-1, 0, 1], size=(hidden_count, input_count), p=[1./3, 1./3, 1./3])
+kernels = np.random.choice([-1, 1], size=(hidden_count, input_count), p=[1./2, 1./2])
 
-import watf
+import watf3 as watf
 
 c = watf.Сlassifier(output_count, hidden_count)
 
