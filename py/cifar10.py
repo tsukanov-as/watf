@@ -6,6 +6,9 @@ import numpy as np
 x_train = np.reshape(x_train, (50000, 32*32*3)).astype(int)
 x_test = np.reshape(x_test, (10000, 32*32*3)).astype(int)
 
+y_train = y_train.ravel()
+y_test = y_test.ravel()
+
 input_count = 32*32*3
 output_count = 10
 
