@@ -1,5 +1,7 @@
 package watf
 
+import "math"
+
 type Watf struct {
 	classes  int
 	features int
@@ -43,7 +45,7 @@ func (watf *Watf) Penalize(y int, x []int) {
 
 func (watf *Watf) Predict(x []int) int {
 	// argmax(weights @ features)
-	vMax := 0
+	vMax := math.MinInt
 	yMax := 0
 	base := 0
 	for y := 0; y < watf.classes; y++ {
