@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/tsukanov-as/watf"
 )
@@ -17,8 +18,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	w := watf.New(10, 28*28)
+	w := watf.New(10, 28*28, watf.WithPenalization())
 
+	start := time.Now()
 	// tune
 	for epoch := 0; epoch < 50; epoch++ {
 		for _, r := range train {
@@ -27,10 +29,11 @@ func main() {
 
 		total := 0.0
 		for _, r := range test {
-			if w.Pred(r[1:]) == r[0] {
+			if w.Predict(r[1:]) == r[0] {
 				total += 1
 			}
 		}
 		fmt.Printf("accuracy on test: %f\n", total/float64(len(test)))
 	}
+	fmt.Println("time:", time.Since(start))
 }

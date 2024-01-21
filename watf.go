@@ -1,53 +1,79 @@
 package watf
 
 type Watf struct {
-	cc int
-	fc int
-	wv []int
+	classes  int
+	features int
+	weights  []int
+	penalize bool
 }
 
-func New(classes, features int) *Watf {
-	return &Watf{
-		cc: classes,
-		fc: features,
-		wv: make([]int, classes*features),
+type option func(watf *Watf)
+
+func WithPenalization() option {
+	return func(watf *Watf) {
+		watf.penalize = true
 	}
 }
 
-func (w *Watf) Feed(cl int, p int, fv []int) {
-	base := cl * w.fc
-	baseP := p * w.fc
-	for i := 0; i < w.fc; i++ {
-		w.wv[base+i] += fv[i]
-		w.wv[baseP+i] -= fv[i] / 2
+func New(classes, features int, options ...option) *Watf {
+	watf := &Watf{
+		classes:  classes,
+		features: features,
+		weights:  make([]int, classes*features),
+	}
+	for _, opt := range options {
+		opt(watf)
+	}
+	return watf
+}
+
+func (watf *Watf) Feed(y int, x []int) {
+	base := y * watf.features
+	for i := 0; i < watf.features; i++ {
+		watf.weights[base+i] += x[i]
 	}
 }
 
-func (w *Watf) Pred(fv []int) int {
+func (watf *Watf) Penalize(y int, x []int) {
+	base := y * watf.features
+	for i := 0; i < watf.features; i++ {
+		watf.weights[base+i] -= x[i] / 2
+	}
+}
+
+func (watf *Watf) Predict(x []int) int {
 	// argmax(weights @ features)
-	maxv := 0
-	maxc := 0
+	vMax := 0
+	yMax := 0
 	base := 0
-	for cl := 0; cl < w.cc; cl++ {
-		total := 0
-		wv := w.wv[base : base+w.fc]
-		for i, v := range wv {
-			total += fv[i] * v
+	for y := 0; y < watf.classes; y++ {
+		w := watf.weights[base : base+watf.features]
+		if v := dot(w, x); vMax < v {
+			vMax = v
+			yMax = y
 		}
-		if maxv < total {
-			maxv = total
-			maxc = cl
-		}
-		base += w.fc
+		base += watf.features
 	}
-	return maxc
+	return yMax
 }
 
-func (watf *Watf) Tune(cl int, fv []int) bool {
-	p := watf.Pred(fv)
-	if p != cl {
-		watf.Feed(cl, p, fv)
+func (watf *Watf) Tune(y int, x []int) bool {
+	p := watf.Predict(x)
+	if p != y {
+		watf.Feed(y, x)
+		if watf.penalize {
+			watf.Penalize(p, x)
+			return true
+		}
 		return true
 	}
 	return false
+}
+
+func dot(a, b []int) int {
+	sum := 0
+	for i, v := range a {
+		sum += b[i] * v
+	}
+	return sum
 }
