@@ -18,7 +18,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	w := watf.New(10, 28*28, watf.WithPenalization())
+	w := watf.New[int](10, 28*28, watf.WithPenalization())
 
 	start := time.Now()
 	// tune
