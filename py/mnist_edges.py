@@ -43,7 +43,7 @@ kernels = [
 
 kernels = torch.tensor(kernels ,dtype=torch.float64)
 
-import watf3 as watf
+import watf
 
 c = watf.Сlassifier(output_count, input_count)
 c.W = torch.from_numpy(c.W)

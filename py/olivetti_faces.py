@@ -9,7 +9,7 @@ x_train, x_test, y_train, y_test = train_test_split(faces.data, faces.target, te
 input_count = 64*64
 output_count = 40
 
-import watf3 as watf
+import watf
 
 c = watf.Сlassifier(output_count, input_count)
 

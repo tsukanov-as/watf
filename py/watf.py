@@ -1,34 +1,30 @@
 import numpy as np
 
 class Сlassifier:
-    def __init__(self, L, F):
-        self.W = np.zeros((L, F))
+    def __init__(self, Y, X):
+        self.W = np.zeros((Y, X))
 
-    def feed(self, L, F):
-        self.W[L] += F
+    def pred(self, X):
+        return (self.W @ X).argmax()
 
-    def tune(self, L, F):
-        if self.pred(F) != L:
-            self.feed(L, F)
+    def tune(self, Y, X):
+        P = self.pred(X)
+        if P != Y:
+            self.W[Y] += X
+            self.W[P] -= X/2
             return True
         return False
 
-    def tune_all(self, L, F):
+    def tune_all(self, Y, X):
         total = 0
-        for i in range(len(F)):
-            if self.tune(L[i], F[i]):
+        for i in range(len(X)):
+            if self.tune(Y[i], X[i]):
                 total += 1
         return total
 
-    def watf(self, F):
-        return self.W @ F
-
-    def pred(self, F):
-        return self.watf(F).argmax()
-
-    def test_all(self, L, F):
+    def test_all(self, Y, X):
         total = 0
-        for i in range(len(F)):
-            if self.pred(F[i]) == L[i]:
+        for i in range(len(X)):
+            if self.pred(X[i]) == Y[i]:
                 total += 1
-        return total/len(F)
+        return total/len(X)

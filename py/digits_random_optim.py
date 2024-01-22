@@ -11,7 +11,7 @@ output_count = 10
 import numpy as np
 kernels = np.random.choice([-1, 1], size=(hidden_count, input_count), p=[1./2, 1./2])
 
-import watf3 as watf
+import watf
 
 c = watf.Сlassifier(output_count, hidden_count)
 

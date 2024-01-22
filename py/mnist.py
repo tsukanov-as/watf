@@ -13,7 +13,7 @@ y_test = y_test.values.astype(int)
 input_count = 28*28
 output_count = 10
 
-import watf3 as watf
+import watf
 
 c = watf.Сlassifier(output_count, input_count)
 

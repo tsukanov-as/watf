@@ -9,7 +9,7 @@ x_train, x_test, y_train, y_test = train_test_split(people.data, people.target, 
 input_count = 62*47
 output_count = people.target.shape[0]
 
-import watf3 as watf
+import watf
 
 c = watf.Сlassifier(output_count, input_count)
 

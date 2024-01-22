@@ -12,7 +12,7 @@ y_test = y_test.ravel()
 input_count = 32*32*3
 output_count = 10
 
-import watf3 as watf
+import watf
 
 c = watf.Сlassifier(output_count, input_count)
 

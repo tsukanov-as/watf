@@ -10,7 +10,7 @@ x_train, x_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 input_count = 4
 output_count = 3
 
-import watf3 as watf
+import watf
 
 c = watf.Сlassifier(output_count, input_count)
 

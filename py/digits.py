@@ -9,7 +9,7 @@ x_train, x_test, y_train, y_test = train_test_split(digits.data, digits.target, 
 input_count = 8*8
 output_count = 10
 
-import watf3 as watf
+import watf
 
 c = watf.Сlassifier(output_count, input_count)
 

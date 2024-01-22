@@ -41,7 +41,7 @@ for epoch in range(50):
             W[j] = x_train[random.randint(0, len(x_train)-1)]
             T[j] = 1
 
-import watf3 as watf
+import watf
 
 cc = []
 for i in range(shard_count):
