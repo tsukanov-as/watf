@@ -18,9 +18,9 @@ type Watf[T number] struct {
 
 type option func(watf *options)
 
-func WithPenalization() option {
+func WithoutPenalization() option {
 	return func(watf *options) {
-		watf.penalize = true
+		watf.penalize = false
 	}
 }
 
@@ -31,6 +31,7 @@ func New[T number](classes, features int, options ...option) *Watf[T] {
 		weights:  make([]T, classes*features),
 		results:  make([]T, classes),
 	}
+	watf.penalize = true
 	for _, opt := range options {
 		opt(&watf.options)
 	}
