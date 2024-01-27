@@ -3,7 +3,7 @@ import numpy as np
 class Сlassifier:
     def __init__(self, L, F):
         self.W = np.zeros((L, F))
-        self.T = np.ones(L)
+        self.T = np.ones((L, 1))
 
     def feed(self, L, F):
         self.W[L] += F
@@ -23,7 +23,7 @@ class Сlassifier:
         return total
 
     def diff(self, F):
-        w = (self.W.T / self.T).T
+        w = self.W / self.T
         return ((w - F)**2).sum(axis=1)
 
     def pred(self, F):

@@ -18,7 +18,7 @@ import watf
 c = watf.Сlassifier(output_count, input_count)
 
 # train
-for epoch in range(100):
+for epoch in range(5):
     total_misses = c.tune_all(y_train, x_train)
 
     train_accuracy = c.test_all(y_train, x_train)
@@ -29,18 +29,9 @@ for epoch in range(100):
         break
 
 # import matplotlib.pyplot as plt
-
-# plt.figure(figsize=(10, 10))
-# for i, patch in enumerate(c.W):
-#     vmax = patch.max()
-#     plt.subplot(1, 10, i + 1)
-#     plt.imshow(patch.reshape((28,28)), cmap=plt.get_cmap('RdBu'), interpolation="nearest")
+# for i, w in enumerate(c.W):
+#     plt.subplot(2, 5, i + 1)
+#     plt.imshow(w.reshape((28,28)), cmap=plt.get_cmap('gray'), interpolation="nearest")
 #     plt.xticks(())
 #     plt.yticks(())
-
-# plt.suptitle(
-#     "Weights",
-#     fontsize=16,
-# )
-
 # plt.show()
