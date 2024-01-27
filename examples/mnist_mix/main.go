@@ -32,10 +32,15 @@ func main() {
 	}
 	m.Commit()
 
+	clusters_train := make([]int, len(train))
+
 	for level := 0; level < levels; level++ {
+		for i, r := range train {
+			clusters_train[i] = m.Cluster(r[1:], level)
+		}
 		for epoch := 0; epoch < 10; epoch++ {
-			for _, r := range train {
-				m.Feed(r[1:], level)
+			for i, r := range train {
+				m.Feed(r[1:], clusters_train[i])
 			}
 			m.Commit()
 			fmt.Printf("sharding level: %d, epoch: %d\n", level, epoch)

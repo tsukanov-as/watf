@@ -39,10 +39,9 @@ func New[T number](classes, features, levels int) *Mix[T] {
 	return mix
 }
 
-func (mix *Mix[T]) Feed(x []T, level int) {
-	c := mix.cluster(x, level)
-	mix.totals[c] += 1
-	s := mix.stat[c*mix.features:]
+func (mix *Mix[T]) Feed(x []T, cluster int) {
+	mix.totals[cluster] += 1
+	s := mix.stat[cluster*mix.features:]
 	for i, v := range x {
 		s[i] += v
 	}
@@ -75,10 +74,10 @@ func (mix *Mix[T]) Predict(x []T) int {
 }
 
 func (mix *Mix[T]) Shard(x []T) *watf.Watf[T] {
-	return mix.watf[mix.clusters-mix.cluster(x, mix.levels-1)-1]
+	return mix.watf[mix.clusters-mix.Cluster(x, mix.levels-1)-1]
 }
 
-func (mix *Mix[T]) cluster(x []T, level int) int {
+func (mix *Mix[T]) Cluster(x []T, level int) int {
 	cluster := 0
 	last := 0
 	base := 0
