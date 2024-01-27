@@ -1,8 +1,8 @@
 package watf
 
-type number interface {
-	~int | ~int32 | ~int64 | ~float32 | ~float64
-}
+import "github.com/tsukanov-as/watf/internal"
+
+type number = internal.Number
 
 type options struct {
 	penalize bool
