@@ -46,11 +46,10 @@ kernels = torch.tensor(kernels ,dtype=torch.float64)
 import watf
 
 c = watf.Сlassifier(output_count, input_count)
-c.W = torch.from_numpy(c.W)
 
 def hidden(x):
     """ fixed hidden layer """
-    return conv2d(x, kernels, padding=0).reshape(input_count).clip(0)
+    return conv2d(x, kernels, padding=0).reshape(input_count).clip(0).numpy()
 
 # train
 for epoch in range(20):
