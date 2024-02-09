@@ -1,6 +1,6 @@
 # Weights @ Features
 
-[Perceptron](https://en.wikipedia.org/wiki/Perceptron) modification.
+[Multiclass perceptron](https://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron)
 
 ```python
 import numpy as np
