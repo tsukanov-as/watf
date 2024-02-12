@@ -9,6 +9,9 @@ import (
 	"github.com/tsukanov-as/watf/mix"
 )
 
+type Number = int
+type Watf = watf.Watf[Number]
+
 func main() {
 	train, err := readMnistCsv("mnist_train.csv")
 	if err != nil {
@@ -23,7 +26,7 @@ func main() {
 
 	levels := 6
 
-	m := mix.New[int](10, 28*28, levels)
+	m := mix.New[Number](10, 28*28, levels)
 
 	start := time.Now()
 
@@ -42,12 +45,12 @@ func main() {
 		}
 	}
 
-	shards_train := make([]*watf.Watf[int], len(train))
+	shards_train := make([]*Watf, len(train))
 	for i, r := range train {
 		shards_train[i] = m.Shard(r[1:])
 	}
 
-	shards_test := make([]*watf.Watf[int], len(test))
+	shards_test := make([]*Watf, len(test))
 	for i, r := range test {
 		shards_test[i] = m.Shard(r[1:])
 	}
