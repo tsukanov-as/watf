@@ -74,7 +74,15 @@ func (mix *Mix[T]) Predict(x []T) int {
 }
 
 func (mix *Mix[T]) Shard(x []T) *watf.Watf[T] {
-	return mix.watf[mix.clusters-mix.Cluster(x, mix.levels-1)-1]
+	return mix.ShardByIndex(mix.ShardIndex(x))
+}
+
+func (mix *Mix[T]) ShardIndex(x []T) int {
+	return mix.clusters - mix.Cluster(x, mix.levels-1) - 1
+}
+
+func (mix *Mix[T]) ShardByIndex(i int) *watf.Watf[T] {
+	return mix.watf[i]
 }
 
 func (mix *Mix[T]) Cluster(x []T, level int) int {
