@@ -22,8 +22,8 @@ import watf
 c = watf.Сlassifier(output_count, hidden_count)
 
 # precalculation of all at once (requires a lot of memory)
-hidden_train = np.heaviside(np.einsum('ik,jk->ij', x_train, kernels), 0)
-hidden_test = np.heaviside(np.einsum('ik,jk->ij', x_test, kernels), 0)
+hidden_train = np.einsum('ik,jk->ij', x_train, kernels).clip(0)
+hidden_test = np.einsum('ik,jk->ij', x_test, kernels).clip(0)
 
 # train
 for epoch in range(50):
