@@ -13,14 +13,19 @@ class Сlassifier:
             self.W[Y] += X
             self.W[P] = (self.W[P] - X/2).clip(0)
             self.T += X
+            return True
+        return False
 
     def tune_all(self, Y, X):
+        total = 0
         for i in range(len(X)):
-            self.tune(Y[i], X[i])
-    
+            if self.tune(Y[i], X[i]):
+                total += 1
+        return total
+
     def pred(self, X):
         return self.calc(X).argmax()
-    
+
     def calc(self, X):
         return 1 - np.prod(1 - self.W / self.T * X, axis=1)
 
