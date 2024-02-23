@@ -17,8 +17,11 @@ import perceptron_sigmoid as watf
 
 c = watf.Сlassifier(output_count, input_count)
 
+from sklearn.utils import shuffle
+
 # train
-for epoch in range(5):
+for epoch in range(500):
+    y_train, x_train = shuffle(y_train, x_train)
     total_misses = c.tune_all(y_train, x_train)
 
     train_accuracy = c.test_all(y_train, x_train)
