@@ -63,6 +63,18 @@ for epoch in range(200):
     if total_misses == 0:
         break
 
+noise = np.random.choice([-1, 1], size=x_train.shape, p=[1./2, 1./2])
+x_train += noise
+
+shards_train = kmeans.predict(x_train)
+
+total_train = 0
+for i in range(len(x_train)):
+    c = cc[shards_train[i]]
+    if y_train[i] == c.pred(x_train[i]):
+        total_train += 1
+
+print("accuracy train with noise: %f" % (total_train/len(x_train)))
 
 # import matplotlib.pyplot as plt
 
