@@ -11,7 +11,7 @@ x_test = x_test.values.astype(int)
 y_test = y_test.values.astype(int)
 
 input_count = 28*28
-shard_count = 100
+shard_count = 20
 output_count = 10
 
 def shard(x):
@@ -32,7 +32,7 @@ for i in range(len(x_test)):
     shards_test[i] = shard(x_test[i])
 
 # train
-for epoch in range(200):
+for epoch in range(500):
     total_misses = 0
     for i in range(len(x_train)):
         c = cc[shards_train[i]]
@@ -55,3 +55,14 @@ for epoch in range(200):
 
     if total_misses == 0:
         break
+
+noise = np.random.choice([-1, 1], size=x_train.shape, p=[1./2, 1./2])
+x_train += noise
+
+total_train = 0
+for i in range(len(x_train)):
+    c = cc[shard(x_train[i])]
+    if y_train[i] == c.pred(x_train[i]):
+        total_train += 1
+
+print("accuracy train with noise: %f" % (total_train/len(x_train)))
