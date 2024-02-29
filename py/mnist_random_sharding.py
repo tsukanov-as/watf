@@ -51,3 +51,16 @@ for epoch in range(200):
 
     if total_misses == 0:
         break
+
+noise = np.random.choice([-1, 1], size=x_train.shape, p=[1./2, 1./2])
+x_train += noise
+
+hidden_train = np.einsum('ik,jk->ij', x_train, kernels).argmax(axis=1)
+
+total_train = 0
+for i in range(len(x_train)):
+    c = cc[(hidden_train[i])]
+    if y_train[i] == c.pred(x_train[i]):
+        total_train += 1
+
+print("accuracy train with noise: %f" % (total_train/len(x_train)))
